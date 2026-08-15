@@ -19,18 +19,32 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
-        if 'file' not in request.files:
-            return jsonify({'error': 'No file provided'}), 400
+        # Opción 1: Si viene como archivo multipart (desde navegador/cliente)
+        if 'file' in request.files:
+            file = request.files['file']
+            file_data = file.read()
         
-        file = request.files['file']
+        # Opción 2: Si viene como datos binarios directos (desde ESP32)
+        elif request.data:
+            file_data = request.data
         
-        # Respuesta de prueba
+        else:
+            return jsonify({'error': 'No file or data provided'}), 400
+        
+        # Verificar que recibimos datos JPEG válidos
+        if not file_data or len(file_data) < 100:
+            return jsonify({'error': 'Invalid image data'}), 400
+        
+        # Por ahora: respuesta de prueba (sin ML)
+        # TODO: Aquí va la lógica de clasificación con TensorFlow
+        
         return jsonify({
             'category': 'lata',
             'confidence': '92.5%'
         }), 200
     
     except Exception as e:
+        print(f"Error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
