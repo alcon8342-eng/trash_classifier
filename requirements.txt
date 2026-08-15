@@ -1,5 +1,6 @@
 Flask==2.3.2
 gunicorn==21.2.0
-tflite-runtime
+opencv-python==4.8.1.78
 pillow==10.0.0
 numpy==1.24.3
+tensorflow-lite==0.0.1
