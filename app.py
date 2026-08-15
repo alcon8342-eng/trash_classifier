@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import json
 import os
 import numpy as np
-from PIL import Image
+# from PIL import Image  ← Comentada
 import io
 import tflite_runtime.interpreter as tflite
 
